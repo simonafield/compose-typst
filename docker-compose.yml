@@ -3,10 +3,8 @@ services:
     image: ghcr.io/typst/typst:0.14.2
     user: "0:0"
     volumes:
-      - .:/data:rw
       - typst-fonts:/fonts:rw
       - typst-packages:/packages:rw
-    working_dir: /data
     environment:
       TYPST_FONT_PATHS: "/fonts"
       TYPST_PACKAGE_CACHE_PATH: "/packages"
