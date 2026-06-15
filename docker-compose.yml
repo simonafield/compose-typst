@@ -1,5 +1,7 @@
+name: personal
+
 services:
-  typst-base:
+  typst-base: &typst-base
     container_name: typst-base
     image: ghcr.io/typst/typst:0.14.2
     user: "0:0"
@@ -9,6 +11,16 @@ services:
     environment:
       TYPST_FONT_PATHS: "/fonts"
       TYPST_PACKAGE_CACHE_PATH: "/packages"
+
+  typst-fonts:
+    <<: *typst-base
+    container_name: typst-fonts
+    command: fonts
+
+  typst-info:
+    <<: *typst-base
+    container_name: typst-info
+    command: info
 
   alpine: &alpine
     container_name: alpine
