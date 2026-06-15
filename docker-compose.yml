@@ -1,0 +1,43 @@
+services:
+  typst-base:
+    image: ghcr.io/typst/typst:0.14.2
+    user: "0:0"
+    volumes:
+      - .:/data:rw
+      - typst-fonts:/fonts:rw
+      - typst-packages:/packages:rw
+    working_dir: /data
+    environment:
+      TYPST_FONT_PATHS: "/fonts"
+      TYPST_PACKAGE_CACHE_PATH: "/packages"
+
+  alpine: &alpine
+    container_name: alpine
+    image: alpine:3
+    user: "${UID}:${GID}"
+    volumes:
+      - .:/data
+    working_dir: /data
+
+  alpine-volume:
+    <<: *alpine
+    container_name: alpine-volume
+    stdin_open: true
+    tty: true
+    command: sh
+    working_dir: /data
+    volumes:
+      - .:/data/data:ro
+      - typst-fonts:/data/typst-fonts:ro
+      - typst-packages:/data/typst-packages:ro
+
+volumes:
+  typst-fonts:
+    name: "typst-fonts"
+    labels:
+      description: "Volume to store fonts for Typst services"
+
+  typst-packages:
+    name: "typst-packages"
+    labels:
+      description: "Volume to store packages for Typst cache"
