@@ -26,9 +26,6 @@ services:
     container_name: alpine
     image: alpine:3
     user: "${UID}:${GID}"
-    volumes:
-      - .:/data
-    working_dir: /data
 
   alpine-volume:
     <<: *alpine
