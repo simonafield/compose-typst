@@ -3,7 +3,7 @@ name: personal
 services:
   typst-base: &typst-base
     container_name: typst-base
-    image: ghcr.io/typst/typst:0.15.0
+    image: ghcr.io/typst/typst:0.15.1
     user: "0:0"
     volumes:
       - typst-fonts:/fonts:rw
