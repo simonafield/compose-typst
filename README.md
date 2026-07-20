@@ -87,7 +87,7 @@ Access this volume by running the [alpine-volume](#alpine-volume) service.
 
 ---
 
-### [typst-packages](./docker-compose.yml#L44)
+### [typst-packages](./docker-compose.yml#L42)
 
 **Description:** Persistent storage for Typst package cache data.
 
