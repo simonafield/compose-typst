@@ -24,7 +24,7 @@ services:
 
   alpine-volume:
     extends:
-      file: docker-compose-util.yml
+      file: compose-typst/docker-compose-util.yml
       service: alpine
     container_name: alpine-volume
     stdin_open: true
