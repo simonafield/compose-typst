@@ -1,4 +1,4 @@
-name: personal
+name: compose
 
 services:
   typst-base: &typst-base
@@ -22,22 +22,18 @@ services:
     container_name: typst-info
     command: info
 
-  alpine: &alpine
-    container_name: alpine
-    image: alpine:3
-    user: "${UID}:${GID}"
-
   alpine-volume:
-    <<: *alpine
+    extends:
+      file: docker-compose-util.yml
+      service: alpine
     container_name: alpine-volume
     stdin_open: true
     tty: true
     command: sh
-    working_dir: /data
+    working_dir: /mnt
     volumes:
-      - .:/data/data:ro
-      - typst-fonts:/data/typst-fonts:ro
-      - typst-packages:/data/typst-packages:ro
+      - typst-fonts:/mnt/typst-fonts:ro
+      - typst-packages:/mnt/typst-packages:ro
 
 volumes:
   typst-fonts:
