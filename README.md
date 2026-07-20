@@ -23,63 +23,68 @@ In the following examples, the `UID` and `GID` values are stored in an `.env` fi
 
 ## Services
 
-### [`typst-base`](./docker-compose.yml#L4)
+### [`typst-base`](./compose-typst/docker-compose.yml#L4)
 
 **Description:** A base service defining the core [Typst](https://typst.app/) image. This service isn't intended to be invoked directly, but rather extended and reused by other services (inheritance).
 
 ---
 
-### [`typst-fonts`](./docker-compose.yml#L15)
+### [`typst-fonts`](./compose-typst/docker-compose.yml#L15)
 
 **Description:** Lists the fonts available to the Typst image using the mounted font cache volume.
 
+The `typst-fonts` service can be started with [fonts.sh](./fonts.sh).
+
 **Example:**
 ```bash
-docker-compose \
-	-f docker-compose.yml \
-	run --rm \
-	typst-fonts
+docker compose \
+    --env-file .env \
+    -f compose-typst/docker-compose.yml \
+    run --rm \
+    typst-fonts
 ```
 
 ---
 
-### [`typst-info`](./docker-compose.yml#L20)
+### [`typst-info`](./compose-typst/docker-compose.yml#L20)
 
 **Description:** Prints Typst installation and environment information.
 
+The `typst-info` service can be started with [info.sh](./info.sh).
+
 **Example:**
 ```bash
-docker-compose \
-	-f docker-compose.yml \
-	run --rm \
-	typst-info
+docker compose \
+    --env-file .env \
+    -f compose-typst/docker-compose.yml \
+    run --rm \
+    typst-info
 ```
 
 ---
 
-### [`alpine-volume`](./docker-compose.yml#L25)
+### [`alpine-volume`](./compose-typst/docker-compose.yml#L25)
 
 **Description:** An interactive Alpine container mounting both the local project directory and the persistent Typst volumes.
 
-The local directory is mounted in `/data`.
+- The local directory is mounted in `/data`.
+- The [typst-fonts](#typst-fonts) volume is mounted in `/mnt/typst-fonts`.
+- The [typst-packages](#typst-packages) volume is mounted in `/mnt/typst-packages`.
 
-The [typst-fonts](#typst-fonts) volume is mounted in `/mnt/typst-fonts`.
-
-The [typst-packages](#typst-packages) volume is mounted in `/mnt/typst-packages`.
+The `alpine-volume` service can be started with [volume.sh](./volume.sh).
 
 **Example:**
 ```bash
-docker-compose \
-	--env-file .env \
-	-f docker-compose.yml \
-	-f docker-compose-util.yml \
-	run --rm \
-	alpine-volume
+docker compose \
+    --env-file .env \
+    -f compose-typst/docker-compose.yml \
+    run --rm \
+    alpine-volume
 ```
 
 ## Volumes
 
-### [typst-fonts](./docker-compose.yml#L39)
+### [typst-fonts](./compose-typst/docker-compose.yml#L39)
 
 **Description:** Persistent storage for Typst font data.
 
@@ -87,7 +92,7 @@ Access this volume by running the [alpine-volume](#alpine-volume) service.
 
 ---
 
-### [typst-packages](./docker-compose.yml#L42)
+### [typst-packages](./compose-typst/docker-compose.yml#L42)
 
 **Description:** Persistent storage for Typst package cache data.
 

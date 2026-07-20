@@ -1,1 +1,43 @@
-../docker-compose.yml
+name: compose
+
+services:
+  typst-base: &typst-base
+    container_name: typst-base
+    image: ghcr.io/typst/typst:0.15.1
+    user: "0:0"
+    volumes:
+      - typst-fonts:/fonts:rw
+      - typst-packages:/packages:rw
+    environment:
+      TYPST_FONT_PATHS: "/fonts"
+      TYPST_PACKAGE_CACHE_PATH: "/packages"
+
+  typst-fonts:
+    <<: *typst-base
+    container_name: typst-fonts
+    command: fonts
+
+  typst-info:
+    <<: *typst-base
+    container_name: typst-info
+    command: info
+
+  alpine-volume:
+    extends:
+      file: compose-typst/docker-compose-util.yml
+      service: alpine
+    container_name: alpine-volume
+    stdin_open: true
+    tty: true
+    command: sh
+    working_dir: /mnt
+    volumes:
+      - typst-fonts:/mnt/typst-fonts:ro
+      - typst-packages:/mnt/typst-packages:ro
+
+volumes:
+  typst-fonts:
+    name: "typst-fonts"
+
+  typst-packages:
+    name: "typst-packages"
