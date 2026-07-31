@@ -11,7 +11,7 @@ updates:
       include: "scope"
 
   - package-ecosystem: "gitsubmodule"
-    directory: "/compose-typst"
+    directory: "compose-typst"
     schedule:
       interval: "cron"
       cronjob: "0 0 * * *"
