@@ -6,10 +6,8 @@ services:
     image: ghcr.io/typst/typst:0.15.1
     user: "0:0"
     volumes:
-      - typst-fonts:/fonts:rw
       - typst-packages:/packages:rw
     environment:
-      TYPST_FONT_PATHS: "/fonts"
       TYPST_PACKAGE_CACHE_PATH: "/packages"
 
   typst-fonts:
@@ -32,12 +30,8 @@ services:
     command: sh
     working_dir: /mnt
     volumes:
-      - typst-fonts:/mnt/typst-fonts:ro
       - typst-packages:/mnt/typst-packages:ro
 
 volumes:
-  typst-fonts:
-    name: "typst-fonts"
-
   typst-packages:
     name: "typst-packages"
